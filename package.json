@@ -1,0 +1,40 @@
+{
+    "name": "sakai-vue-vite",
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/3ig/sakai-vue-vite.git"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "tabWidth": 4,
+        "printWidth": 160
+    },
+    "license": "MIT",
+    "scripts": {
+        "dev": "vite",
+        "format": "prettier -w -u ./src",
+        "build": "vite build",
+        "serve": "vite preview --host 0.0.0.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^1.10.0",
+        "@vue/compiler-sfc": "^3.2.22",
+        "autoprefixer": "^10.4.0",
+        "postcss": "^8.4.1",
+        "prettier": "^2.4.1",
+        "sass": "^1.43.5",
+        "vite": "^2.6.14"
+    },
+    "dependencies": {
+        "axios": "^0.24.0",
+        "chart.js": "^3.6.0",
+        "core-js": "^3.19.1",
+        "primeflex": "^3.1.0",
+        "primeicons": "^5.0.0",
+        "primevue": "^3.9.1",
+        "prismjs": "^1.25.0",
+        "vue": "^3.2.22",
+        "vue-router": "^4.0.12"
+    }
+}
