@@ -30,6 +30,7 @@ or
 
 ```
 yarn dev
+```
 
 ### Vue CLI Scripts
 
