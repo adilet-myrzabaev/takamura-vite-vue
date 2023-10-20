@@ -1,5 +1,10 @@
 <template>
     <div class="grid p-fluid">
+        <div class="col-12">
+            <div>
+                <Breadcrumb :home="breadcrumbHome" :model="breadcrumbItems" />
+            </div>
+        </div>
         <div class="col-12 md:col-6">
             <div class="card">
                 <h5>InputText</h5>
@@ -290,6 +295,8 @@ export default {
             selectButtonValue2: null,
             inputGroupValue: false,
             knobValue: 20,
+            breadcrumbHome: { icon: 'pi pi-home', to: '/' },
+            breadcrumbItems: [{ label: 'Заказы' }],
         };
     },
     countryService: null,

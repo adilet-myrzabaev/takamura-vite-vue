@@ -8,14 +8,57 @@ const routes = [
         component: Dashboard,
     },
     {
-        path: '/formlayout',
-        name: 'formlayout',
-        component: () => import('./components/FormLayoutDemo.vue'),
+        path: '/landing',
+        name: 'landing',
+        component: () => import('./pages/landing.vue'),
+        meta: {
+            layout: 'login'
+        }
     },
     {
-        path: '/input',
-        name: 'input',
-        component: () => import('./components/InputDemo.vue'),
+        path: '/sets',
+        name: 'sets',
+        component: () => import('./components/Product/Sets.vue'),
+    },
+    {
+        path: '/sushi',
+        name: 'sushi',
+        component: () => import('./components/Product/Sushi.vue'),
+    },
+    {
+        path: '/rolls',
+        name: 'rolls',
+        component: () => import('./components/Product/Rolls.vue'),
+    },
+    {
+        path: '/warmRolls',
+        name: 'warmRolls',
+        component: () => import('./components/Product/WarmRolls.vue'),
+    },
+    {
+        path: '/maki',
+        name: 'maki',
+        component: () => import('./components/Product/Maki.vue'),
+    },
+    {
+        path: '/salads',
+        name: 'salads',
+        component: () => import('./components/Product/Salads.vue'),
+    },
+    {
+        path: '/drinks',
+        name: 'drinks',
+        component: () => import('./components/Product/Drinks.vue'),
+    },
+    {
+        path: '/sauces',
+        name: 'sauces',
+        component: () => import('./components/Product/Sauces.vue'),
+    },
+    {
+        path: '/orders',
+        name: 'orders',
+        component: () => import('./components/Orders.vue'),
     },
     {
         path: '/floatlabel',
@@ -23,101 +66,36 @@ const routes = [
         component: () => import('./components/FloatLabelDemo.vue'),
     },
     {
-        path: '/invalidstate',
-        name: 'invalidstate',
-        component: () => import('./components/InvalidStateDemo.vue'),
+        path: '/login/auth',
+        name: 'auth',
+        component: () => import('./pages/login/auth.vue'),
+        meta:{
+            layout: 'login'
+        }
     },
     {
-        path: '/button',
-        name: 'button',
-        component: () => import('./components/ButtonDemo.vue'),
+        path: '/login/register',
+        name: 'register',
+        component: () => import('./pages/login/register.vue'),
+        meta:{
+            layout: 'login'
+        }
     },
     {
-        path: '/table',
-        name: 'table',
-        component: () => import('./components/TableDemo.vue'),
+        path: '/login/reset-password/check',
+        name: 'check',
+        component: () => import('./pages/login/reset-password/check.vue'),
+        meta:{
+            layout: 'login'
+        }
     },
     {
-        path: '/list',
-        name: 'list',
-        component: () => import('./components/ListDemo.vue'),
-    },
-    {
-        path: '/tree',
-        name: 'tree',
-        component: () => import('./components/TreeDemo.vue'),
-    },
-    {
-        path: '/panel',
-        name: 'panel',
-        component: () => import('./components/PanelsDemo.vue'),
-    },
-    {
-        path: '/overlay',
-        name: 'overlay',
-        component: () => import('./components/OverlayDemo.vue'),
-    },
-    {
-        path: '/menu',
-        component: () => import('./components/MenuDemo.vue'),
-        children: [
-            {
-                path: '',
-                component: () => import('./components/menu/PersonalDemo.vue'),
-            },
-            {
-                path: '/menu/seat',
-                component: () => import('./components/menu/SeatDemo.vue'),
-            },
-            {
-                path: '/menu/payment',
-                component: () => import('./components/menu/PaymentDemo.vue'),
-            },
-            {
-                path: '/menu/confirmation',
-                component: () => import('./components/menu/ConfirmationDemo.vue'),
-            },
-        ],
-    },
-    {
-        path: '/messages',
-        name: 'messages',
-        component: () => import('./components/MessagesDemo.vue'),
-    },
-    {
-        path: '/file',
-        name: 'file',
-        component: () => import('./components/FileDemo.vue'),
-    },
-    {
-        path: '/chart',
-        name: 'chart',
-        component: () => import('./components/ChartDemo.vue'),
-    },
-    {
-        path: '/misc',
-        name: 'misc',
-        component: () => import('./components/MiscDemo.vue'),
-    },
-    {
-        path: '/crud',
-        name: 'crud',
-        component: () => import('./pages/CrudDemo.vue'),
-    },
-    {
-        path: '/timeline',
-        name: 'timeline',
-        component: () => import('./pages/TimelineDemo.vue'),
-    },
-    {
-        path: '/empty',
-        name: 'empty',
-        component: () => import('./components/EmptyPage.vue'),
-    },
-    {
-        path: '/documentation',
-        name: 'documentation',
-        component: () => import('./components/Documentation.vue'),
+        path: '/login/reset-password/reset',
+        name: 'reset',
+        component: () => import('./pages/login/reset-password/reset.vue'),
+        meta:{
+            layout: 'login'
+        }
     },
 ];
 

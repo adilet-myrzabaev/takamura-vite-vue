@@ -1,5 +1,12 @@
 <template>
     <div class="floatlabel-demo">
+        <div class='grid'>
+            <div class="col-12">
+                <div>
+                    <Breadcrumb :home="breadcrumbHome" :model="breadcrumbItems" />
+                </div>
+            </div>
+        </div>
         <div class="card">
             <h5>Float Label</h5>
             <div class="grid p-fluid mt-3">
@@ -84,6 +91,8 @@ import CountryService from '../service/CountryService';
 export default {
     data() {
         return {
+            breadcrumbHome: { icon: 'pi pi-home', to: '/' },
+            breadcrumbItems: [{ label: 'Computer' }],
             countries: [],
             filteredCountries: null,
             cities: [

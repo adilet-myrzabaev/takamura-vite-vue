@@ -1,0 +1,94 @@
+.logo{
+  width: 50px;
+}
+.menu{
+  display: flex;
+  align-items: center;
+  .menu__item{
+    margin-right: 20px;
+    .menu-link{
+      color: #7F7F7F;
+      text-align: right;
+      font-size: 15.875px;
+      font-style: normal;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+.burger{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+  .burger-item{
+    width: 20px;
+    height: 2px;
+    background: #7F7F7F;
+    border-radius: 15px
+  }
+}
+.carousel-parent{
+  .p-carousel .p-carousel-indicators{
+    display: none;
+  }
+  .p-carousel .p-carousel-content .p-carousel-prev,
+ {
+    display: none;
+  }
+}
+.tab-menu{
+  .p-tabmenu .p-tabmenu-nav{
+    background: none;
+    border: none;
+  }
+  .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link{
+    background: none;
+    border: none;
+  }
+  .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link{
+    background: none;
+    border: none;
+  }
+}
+.product-parent{
+  .p-card{
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 1rem;
+    .p-card-body{
+      padding: 0;
+    }
+    .p-card-content{
+      p{
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.product-caption{
+  color: #1F1E23;
+  font-family: 'Inter', sans-serif;
+  font-size: 17.031px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.product-description{
+  color: #7F7F7F;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.344px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.1px; /* 120.656% */
+  letter-spacing: 0.72px;
+}
