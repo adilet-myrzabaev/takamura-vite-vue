@@ -1,12 +1,57 @@
 <script lang="ts" setup>
+import { reactive, ref } from 'vue';
+import { useToast } from 'primevue/usetoast';
 
-import { computed, reactive, ref } from 'vue';
+const checked = ref(false);
 
-const userLogin = reactive({
+const loginUser = reactive({
     login: ''
 })
 
-const checked = ref(false);
+const validations = reactive({
+    login: {
+        show: false,
+        message: 'Логин обязательно!',
+        validate: () => {
+            if (loginUser.login === '') {
+                validations.login.show = true
+            } else {
+                validations.login.show = false
+            }
+            return !validations.login.show
+        }
+    }
+})
+
+const validate = () => {
+    for (const validationItem of Object.values(validations)) {
+        const valid = validationItem.validate()
+        if (!valid) { return false }
+    }
+    return true
+}
+const toast = useToast()
+const signIn = async () => {
+    const valid = validate()
+    if (!valid) {
+        showError('Форма содержит ошибки. Пожалуйста, проверьте введенные данные.')
+        return
+    }
+    try {
+        // const { data } = await axios.post('', loginUser)
+        // await router.push('/')
+        await showSuccess()
+    } catch (error) {
+        console.log('catch error')
+        showError(error as string)
+    }
+}
+const showSuccess = () => {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 })
+}
+const showError = (error:string) => {
+    toast.add({ severity: 'error', summary: 'Ошибка', detail:`${error}`, life: 3000 })
+}
 
 </script>
 
@@ -26,18 +71,20 @@ const checked = ref(false);
             <label for="email1" class="block text-900 text-xl font-medium mb-2">Логин</label>
             <InputText
               id="login"
-              v-model="userLogin.login"
+              v-model="loginUser.login"
+              @input="validations.login.validate()"
+              :class="{'p-invalid': !validations.login.message}"
               type="text"
-              class="w-full mb-3"
+              class="w-full mb-1"
               placeholder="Логин"
               style="padding:1rem;"
             />
-
+              <small v-if="validations.login.show" class="p-error ml-1">{{validations.login.message}}</small>
             <div class="flex align-items-center justify-content-between mb-5">
               <div class="flex align-items-center">
               </div>
             </div>
-            <Button label="Продолжить" class="w-full p-3 text-xl" />
+            <Button label="Продолжить" class="w-full p-3 text-xl" @click='signIn'/>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import Dashboard from './components/Dashboard.vue';
 
 const routes = [
     {
-        path: '/',
+        path: '/admin',
         name: 'dashboard',
         component: Dashboard,
     },
@@ -66,7 +66,7 @@ const routes = [
         component: () => import('./components/FloatLabelDemo.vue'),
     },
     {
-        path: '/login/auth',
+        path: '/',
         name: 'auth',
         component: () => import('./pages/login/auth.vue'),
         meta:{

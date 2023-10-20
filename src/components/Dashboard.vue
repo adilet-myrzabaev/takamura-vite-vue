@@ -7,8 +7,8 @@
         </div>
         <div class="col-12">
             <div class="card">
-                <Listbox v-model="products" :options="products" optionLabel="name" :filter="true" filter-placeholder='Поиск' />
                 <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll">
+                    <Listbox v-model="listboxValue" :options="products" optionLabel="name" :filter="true" filter-placeholder='Поиск' />
                     <Column style="width: 15%">
                         <template #header> Image </template>
                         <template #body="slotProps">
@@ -46,7 +46,7 @@ import ProductService from '../service/ProductService';
 export default {
     data() {
         return {
-            breadcrumbHome: { icon: 'pi pi-home', to: '/' },
+            breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
             products: null,
             listboxValue: null,
             lineData: {

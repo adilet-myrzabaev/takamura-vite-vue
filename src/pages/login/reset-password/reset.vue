@@ -1,13 +1,70 @@
 <script lang="ts" setup>
 
 import { computed, reactive, ref } from 'vue';
+import { useToast } from 'primevue/usetoast';
 
-const userLogin = reactive({
+const checked = ref(false);
+const loginUser = ref({
     password: '',
     confirmPassword: ''
 })
-const checked = ref(false);
 
+const validations = reactive({
+    password: {
+        show: false,
+        message: 'Пароль обязательно!',
+        validate: () => {
+            if (loginUser.value.password === '') {
+                validations.password.show = true
+            } else {
+                validations.password.show = false
+            }
+            return !validations.password.show
+        }
+    },
+    confirmPassword: {
+        show: false,
+        message: 'Пароль неправильно!',
+        validate: () => {
+            if (loginUser.value.confirmPassword !== loginUser.value.password) {
+                validations.confirmPassword.show = true
+            } else {
+                validations.confirmPassword.show = false
+            }
+            return !validations.confirmPassword.show
+        }
+    }
+})
+const toast = useToast()
+const validate = () => {
+    for (const validationItem of Object.values(validations)) {
+        const valid = validationItem.validate()
+        if (!valid) { return false }
+    }
+    return true
+}
+const change = async () => {
+    const valid = validate()
+    if (!valid) {
+        showError('Форма содержит ошибки. Пожалуйста, проверьте введенные данные.')
+
+        return
+    }
+    try {
+        // const { data } = await axios.post('https://localhost:7123/User/Registration', model)
+        // router.push('/')
+        showSuccess()
+    } catch (error) {
+        showError(error as string)
+    }
+}
+const showSuccess = () => {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 })
+    return true
+}
+const showError = (error:string) => {
+    toast.add({ severity: 'error', summary: 'Ошибка', detail:`${error}`, life: 3000 })
+}
 </script>
 
 <template>
@@ -24,33 +81,40 @@ const checked = ref(false);
 
           <div class="w-full md:w-10 mx-auto">
 
-            <label for="password1" class="block text-900 font-medium text-xl mb-2">Новый пароль</label>
-            <Password
-                  id="password"
-                  v-model="userLogin.password"
-                  placeholder="Пароль"
-                  :toggle-mask="true"
-                  class="w-full mb-3"
-                  input-class="w-full"
-                  input-style="padding:1rem"
-              />
-
-            <label for="password1" class="block text-900 font-medium text-xl mb-2">Подвердить пароль</label>
-            <Password
-              id="confirmPassword"
-              v-model="userLogin.confirmPassword"
-              placeholder="Подвердить пароль"
-              :toggle-mask="true"
-              class="w-full mb-3"
-              input-class="w-full"
-              input-style="padding:1rem"
-            />
-
+            <div class='col-12'>
+                <label for="password1" class="block text-900 font-medium text-xl mb-2">Новый пароль</label>
+                <Password
+                    id="password"
+                    v-model="loginUser.password"
+                    @input="validations.password.validate()"
+                    :class="{'p-invalid': !validations.password.message}"
+                    placeholder="Пароль"
+                    :toggle-mask="true"
+                    class="w-full mb-1"
+                    input-class="w-full"
+                    input-style="padding:1rem"
+                />
+                <small v-if="validations.password.show" class="p-error ml-1">{{ validations.password.message }}</small>
+            </div>
+            <div class='col-12'>
+                <label for="password1" class="block text-900 font-medium text-xl mb-2">Подтвердить пароль</label>
+                <Password
+                    id="confirmPassword"
+                    v-model="loginUser.confirmPassword"
+                    @input="validations.confirmPassword.validate()"
+                    placeholder="Подтвердить пароль"
+                    :toggle-mask="true"
+                    class="w-full mb-1"
+                    input-class="w-full"
+                    input-style="padding:1rem"
+                />
+                <small v-if="validations.confirmPassword.show" class="p-error ml-1">{{ validations.confirmPassword.message }}</small>
+            </div>
             <div class="flex align-items-center justify-content-between mb-5">
               <div class="flex align-items-center">
               </div>
             </div>
-            <Button label="Подтвердить" class="w-full p-3 text-xl" />
+            <Button label="Подтвердить" class="w-full p-3 text-xl" @click='change'/>
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ export default {
                     label: 'UI Kit',
                     icon: 'pi pi-fw pi-sitemap',
                     items: [
-                        { label: 'Товары', icon: 'pi pi-fw pi-shopping-cart', to: '/' },
+                        { label: 'Товары', icon: 'pi pi-fw pi-shopping-cart', to: '/admin' },
                         { label: 'Заказы', icon: 'pi pi-fw pi-check-square', to: '/orders' },
                         { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/floatlabel' },
                     ],

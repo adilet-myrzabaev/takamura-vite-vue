@@ -295,7 +295,7 @@ export default {
             selectButtonValue2: null,
             inputGroupValue: false,
             knobValue: 20,
-            breadcrumbHome: { icon: 'pi pi-home', to: '/' },
+            breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
             breadcrumbItems: [{ label: 'Заказы' }],
         };
     },

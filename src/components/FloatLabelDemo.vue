@@ -91,7 +91,7 @@ import CountryService from '../service/CountryService';
 export default {
     data() {
         return {
-            breadcrumbHome: { icon: 'pi pi-home', to: '/' },
+            breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
             breadcrumbItems: [{ label: 'Computer' }],
             countries: [],
             filteredCountries: null,
