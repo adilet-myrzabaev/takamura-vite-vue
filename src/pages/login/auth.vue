@@ -104,7 +104,7 @@ const showError = (error:string) => {
                     id="password1"
                     v-model="loginUser.password"
                     @input="validations.password.validate()"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     :toggle-mask="true"
                     class="w-full mb-1"
                     input-class="w-full"

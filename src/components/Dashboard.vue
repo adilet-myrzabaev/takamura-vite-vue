@@ -7,8 +7,9 @@
         </div>
         <div class="col-12">
             <div class="card">
-                <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll">
-                    <Listbox v-model="listboxValue" :options="products" optionLabel="name" :filter="true" filter-placeholder='Поиск' />
+                <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll" v-model:filters="products" v-model:selection="selectedCustomer"
+                           stateStorage="session" stateKey="dt-state-demo-session" paginator filterDisplay="menu"
+                           selectionMode="single" dataKey="id" :globalFilterFields="['name', 'country.name', 'representative.name', 'status']" tableStyle="min-width: 50rem">
                     <Column style="width: 15%">
                         <template #header> Image </template>
                         <template #body="slotProps">
@@ -29,20 +30,16 @@
                     <Column style="width: 15%">
                         <template #body='slotProps'>
                             <div class='flex align-items-center'>
-                                <Button icon="pi pi-pencil" type="button" class="p-button-text text-black-alpha-80"></Button>
-                                <Dialog class="dialog-menu" v-model:visible="visible" :style="{ width: '50vw' }" position="right" :modal="true" :draggable="false">
+                                <Button icon="pi pi-pencil" type="button" class="p-button-text text-black-alpha-80" @click='openDialog()'></Button>
+                                <Dialog class="dialog-menu" v-model:visible="visible" :style="{ width: '50vw' }" position="center" :modal="true" :draggable="false">
                                     <template #header>
-                                        <img @click="router.push('/')" src="https://takamura-eats.ru/custom/my/img/logo22.png" alt="">
+                                        <img @click="router.push('/')" src="https://takamura-eats.ru/custom/my/img/logo22.png" alt="qwdasdas">
                                     </template>
                                     <p class="font-normal product-caption mb-0 cursor-pointer">ПРОГРАММА ЛОЯЛЬНОСТИ</p>
                                     <p class="font-normal product-caption mb-0 cursor-pointer">АКЦИИ</p>
                                     <p class="font-normal product-caption mb-0 cursor-pointer">МЕНЮ</p>
-                                    <ul v-for="product in productsItems">
-                                        <li class="cursor-pointer product-caption font-light underline" @click="router.push(`${product.route}`); visible=false">
-                                            {{ product.label}}
-                                        </li>
-                                    </ul>
                                     <p class="font-normal product-caption mb-0 cursor-pointer">КОНТАКТЫ</p>
+
                                 </Dialog>
                                 <Button icon="pi pi-trash" type="button" class="p-button-text text-black-alpha-80 ml-3"  @click='deleted(slotProps.data.id)'></Button>
                             </div>
@@ -56,10 +53,13 @@
 
 <script>
 import ProductService from '../service/ProductService';
+import axios from 'axios';
+
 
 export default {
     data() {
         return {
+            visible: false,
             breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
             products: null,
             listboxValue: null,
@@ -89,12 +89,13 @@ export default {
             ],
             methods: {
                 deleted(Id) {
-                    let index = products.value.findIndex((el) => {
+                    let index = this.products.value.findIndex((el) => {
                         return el.id === Id
                     });
-                    products.value.slice(index,1)
+                    this.products.value.slice(index,1)
                 }
-            }
+            },
+
         };
     },
     productService: null,
@@ -109,11 +110,16 @@ export default {
             return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
         },
         deleted(Id){
-            let index = products.value.findIndex((el) => {
-                return el.id === Id
-            });
-            products.value.slice(index,1)
+            this.products.filter((el)=>{
+                 el.id == Id
+            })
+        },
+
+        openDialog(Id) {
+            this.visible = true
         }
     },
+
+
 };
 </script>

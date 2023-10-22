@@ -1,12 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Dashboard from './components/Dashboard.vue';
 
 const routes = [
-    {
-        path: '/admin',
-        name: 'dashboard',
-        component: Dashboard,
-    },
     {
         path: '/landing',
         name: 'landing',
@@ -96,6 +90,11 @@ const routes = [
         meta:{
             layout: 'login'
         }
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('./pages/Admin.vue'),
     },
 ];
 

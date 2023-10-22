@@ -1,28 +1,11 @@
 <template>
     <div class="grid crud-demo">
+        <div class='col-12'>
+            <Breadcrumb :home="breadcrumbHome" :model="breadcrumbItems" />
+        </div>
         <div class="col-12">
             <div class="card">
                 <Toast />
-                <Toolbar class="mb-4">
-                    <template v-slot:left>
-                        <div class="my-2">
-                            <Button label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
-                            <Button
-                                label="Delete"
-                                icon="pi pi-trash"
-                                class="p-button-danger"
-                                @click="confirmDeleteSelected"
-                                :disabled="!selectedProducts || !selectedProducts.length"
-                            />
-                        </div>
-                    </template>
-
-                    <template v-slot:right>
-                        <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
-                        <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)" />
-                    </template>
-                </Toolbar>
-
                 <DataTable
                     ref="dt"
                     :value="products"
@@ -38,21 +21,13 @@
                 >
                     <template #header>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Manage Products</h5>
+                            <h5 class="m-0">Все продукты</h5>
                             <span class="block mt-2 md:mt-0 p-input-icon-left">
                                 <i class="pi pi-search" />
                                 <InputText v-model="filters['global']" placeholder="Search..." />
                             </span>
                         </div>
                     </template>
-
-                    <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-                    <Column field="code" header="Code" :sortable="true">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Code</span>
-                            {{ slotProps.data.code }}
-                        </template>
-                    </Column>
                     <Column field="name" header="Name" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Name</span>
@@ -77,24 +52,10 @@
                             {{ formatCurrency(slotProps.data.category) }}
                         </template>
                     </Column>
-                    <Column field="rating" header="Reviews" :sortable="true">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Rating</span>
-                            <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false" />
-                        </template>
-                    </Column>
-                    <Column field="inventoryStatus" header="Status" :sortable="true">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Status</span>
-                            <span :class="'product-badge status-' + (slotProps.data.inventoryStatus ? slotProps.data.inventoryStatus.toLowerCase() : '')">{{
-                                slotProps.data.inventoryStatus
-                            }}</span>
-                        </template>
-                    </Column>
                     <Column>
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editProduct(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" />
+                            <Button icon="pi pi-pencil" class="p-button-rounded bg-transparent border-none text-black-alpha-80 mr-2" @click="editProduct(slotProps.data)" />
+                            <Button icon="pi pi-trash" class="p-button-rounded bg-transparent border-none text-black-alpha-80" @click="confirmDeleteProduct(slotProps.data)" />
                         </template>
                     </Column>
                 </DataTable>
@@ -115,23 +76,6 @@
                     <div class="field">
                         <label for="description">Description</label>
                         <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
-                    </div>
-
-                    <div class="field">
-                        <label for="inventoryStatus" class="mb-3">Inventory Status</label>
-                        <Dropdown id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
-                            <template #value="slotProps">
-                                <div v-if="slotProps.value && slotProps.value.value">
-                                    <span :class="'product-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
-                                </div>
-                                <div v-else-if="slotProps.value && !slotProps.value.value">
-                                    <span :class="'product-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
-                                </div>
-                                <span v-else>
-                                    {{ slotProps.placeholder }}
-                                </span>
-                            </template>
-                        </Dropdown>
                     </div>
 
                     <div class="field">
@@ -161,17 +105,12 @@
                             <label for="price">Price</label>
                             <InputNumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US" />
                         </div>
-                        <div class="field col">
-                            <label for="quantity">Quantity</label>
-                            <InputNumber id="quantity" v-model="product.quantity" integeronly />
-                        </div>
                     </div>
                     <template #footer>
                         <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
                         <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
                     </template>
                 </Dialog>
-
                 <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -185,7 +124,6 @@
                         <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct" />
                     </template>
                 </Dialog>
-
                 <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -207,6 +145,7 @@ import ProductService from '../service/ProductService';
 export default {
     data() {
         return {
+            breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
             products: null,
             productDialog: false,
             deleteProductDialog: false,
