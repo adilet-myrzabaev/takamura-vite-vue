@@ -20,33 +20,87 @@
                     responsiveLayout="scroll"
                 >
                     <template #header>
-                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Все продукты</h5>
+                        <div class="flex md:justify-content-between md:align-items-center">
+                            <button class='pi pi-plus bg-transparent cursor-pointer p-2 border-round border-1' @click='openNew()'>
+                                <span class='text-xl ml-2'>New product</span>
+                            </button>
+                            <Dialog v-model:visible="productAdd" :style="{ width: '450px' }" header="Добавить новый продукт" :modal="true" class="p-fluid">
+                                <img
+                                    :src="'images/product/' + product.image"
+                                    :alt="product.image"
+                                    v-if="product.image"
+                                    width="150"
+                                    class="mt-0 mx-auto mb-5 block shadow-2"
+                                />
+                                <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Добавить картинки" chooseLabel="Добавить  картинки" class="mr-2 inline-block bg-transparent text-black-alpha-80 border-black-alpha-80" />
+                                <div class="field">
+                                    <label for="name">Имя</label>
+                                    <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
+                                    <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
+                                </div>
+                                <div class="field">
+                                    <label for="description">Описание</label>
+                                    <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
+                                </div>
+
+                                <div class="field">
+                                    <label class="mb-3">Категория</label>
+                                    <div class="formgrid grid">
+                                        <div class="field-radiobutton col-6">
+                                            <RadioButton id="category1" name="category" value="Accessories" v-model="product.category" />
+                                            <label for="category1">Accessories</label>
+                                        </div>
+                                        <div class="field-radiobutton col-6">
+                                            <RadioButton id="category2" name="category" value="Clothing" v-model="product.category" />
+                                            <label for="category2">Clothing</label>
+                                        </div>
+                                        <div class="field-radiobutton col-6">
+                                            <RadioButton id="category3" name="category" value="Electronics" v-model="product.category" />
+                                            <label for="category3">Electronics</label>
+                                        </div>
+                                        <div class="field-radiobutton col-6">
+                                            <RadioButton id="category4" name="category" value="Fitness" v-model="product.category" />
+                                            <label for="category4">Fitness</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="formgrid grid">
+                                    <div class="field col">
+                                        <label for="price">Цена</label>
+                                        <InputNumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US" />
+                                    </div>
+                                </div>
+                                <template #footer>
+                                    <Button label="Отмена" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
+                                    <Button label="Сохранить" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
+                                </template>
+                            </Dialog>
                             <span class="block mt-2 md:mt-0 p-input-icon-left">
                                 <i class="pi pi-search" />
-                                <InputText v-model="filters['global']" placeholder="Search..." />
+                                <InputText v-model="filters['global']" placeholder="Поиск..." />
                             </span>
                         </div>
                     </template>
-                    <Column field="name" header="Name" :sortable="true">
+                    <Column field="name" header="Имя" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Name</span>
                             {{ slotProps.data.name }}
                         </template>
                     </Column>
-                    <Column header="Image">
+                    <Column header="Картинка">
                         <template #body="slotProps">
                             <span class="p-column-title">Image</span>
                             <img :src="'images/product/' + slotProps.data.image" :alt="slotProps.data.image" class="shadow-2" width="100" />
                         </template>
                     </Column>
-                    <Column field="price" header="Price" :sortable="true">
+                    <Column field="price" header="Цена" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Price</span>
                             {{ formatCurrency(slotProps.data.price) }}
                         </template>
                     </Column>
-                    <Column field="category" header="Category" :sortable="true">
+                    <Column field="category" header="Категория" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Category</span>
                             {{ formatCurrency(slotProps.data.category) }}
@@ -69,17 +123,17 @@
                         class="mt-0 mx-auto mb-5 block shadow-2"
                     />
                     <div class="field">
-                        <label for="name">Name</label>
+                        <label for="name">Имя</label>
                         <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
                         <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
                     </div>
                     <div class="field">
-                        <label for="description">Description</label>
+                        <label for="description">Описание</label>
                         <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
                     </div>
 
                     <div class="field">
-                        <label class="mb-3">Category</label>
+                        <label class="mb-3">Категория</label>
                         <div class="formgrid grid">
                             <div class="field-radiobutton col-6">
                                 <RadioButton id="category1" name="category" value="Accessories" v-model="product.category" />
@@ -102,13 +156,13 @@
 
                     <div class="formgrid grid">
                         <div class="field col">
-                            <label for="price">Price</label>
+                            <label for="price">Цена</label>
                             <InputNumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US" />
                         </div>
                     </div>
                     <template #footer>
-                        <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
-                        <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
+                        <Button label="Отмена" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
+                        <Button label="Сохранить" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
                     </template>
                 </Dialog>
                 <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
@@ -120,8 +174,8 @@
                         >
                     </div>
                     <template #footer>
-                        <Button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false" />
-                        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct" />
+                        <Button label="Нет" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false" />
+                        <Button label="Да" icon="pi pi-check" class="p-button-text" @click="deleteProduct" />
                     </template>
                 </Dialog>
                 <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
@@ -148,17 +202,13 @@ export default {
             breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
             products: null,
             productDialog: false,
+            productAdd: false,
             deleteProductDialog: false,
             deleteProductsDialog: false,
             product: {},
             selectedProducts: null,
             filters: {},
             submitted: false,
-            statuses: [
-                { label: 'INSTOCK', value: 'instock' },
-                { label: 'LOWSTOCK', value: 'lowstock' },
-                { label: 'OUTOFSTOCK', value: 'outofstock' },
-            ],
         };
     },
     productService: null,
@@ -176,7 +226,7 @@ export default {
         openNew() {
             this.product = {};
             this.submitted = false;
-            this.productDialog = true;
+            this.productAdd = true;
         },
         hideDialog() {
             this.productDialog = false;
