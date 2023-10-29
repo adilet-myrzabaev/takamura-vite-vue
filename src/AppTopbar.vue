@@ -1,8 +1,8 @@
 <template>
     <div class="layout-topbar">
-        <router-link to="/landing" class="layout-topbar-logo">
-            <img alt="Logo" :src="topbarImage()" />
-            <span>SAKAI</span>
+        <router-link to="/admin" class="layout-topbar-logo">
+            <img alt="Logo" src="https://takamura-eats.ru/custom/my/img/logo22.png" />
+            <span>Takamura</span>
         </router-link>
         <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle">
             <i class="pi pi-bars"></i>

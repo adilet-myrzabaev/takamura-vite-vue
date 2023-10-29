@@ -8,7 +8,7 @@
                 role="none"
             >
                 <template v-if="root">
-                    <div class="layout-menuitem-root-text">{{ item.label }}</div>
+                    <div class="layout-menuitem-root-text"> {{ item.label }}</div>
                     <appsubmenu :items="visible(item) && item.items" @menuitem-click="$emit('menuitem-click', $event)"></appsubmenu>
                 </template>
                 <template v-else>
@@ -22,6 +22,7 @@
                         exact
                         role="menuitem"
                         v-ripple
+
                     >
                         <i :class="item.icon"></i>
                         <span>{{ item.label }}</span>
@@ -37,6 +38,7 @@
                         :target="item.target"
                         role="menuitem"
                         v-ripple
+
                     >
                         <i :class="item.icon"></i>
                         <span>{{ item.label }}</span>

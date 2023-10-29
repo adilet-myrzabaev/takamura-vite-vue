@@ -13,12 +13,26 @@ export default {
             mobileMenuActive: false,
             menu: [
                 {
-                    label: 'UI Kit',
+                    label: 'Главная страница',
+                    icon: 'pi pi-fw pi-home',
+                    items: [
+                        {label: 'Главная', icon: 'pi pi-fw pi-home', to: '/admin'}
+                    ]
+                },
+                {
+                    label: 'Система управления',
                     icon: 'pi pi-fw pi-sitemap',
                     items: [
-                        { label: 'Товары', icon: 'pi pi-fw pi-shopping-cart', to: '/admin' },
+                        { label: 'Товары', icon: 'pi pi-fw pi-shopping-cart', to: '/products' },
                         { label: 'Заказы', icon: 'pi pi-fw pi-check-square', to: '/orders' },
-                        { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/floatlabel' },
+                        { label: 'Категории', icon: 'pi pi-fw pi-list', to: '/categories' },
+                    ],
+                },
+                {
+                    label: 'Выход из системы',
+                    icon: 'pi pi-fw pi-home',
+                    items: [
+                        { label: 'Выход', icon: 'pi pi-fw pi-sign-out' }
                     ],
                 },
             ],

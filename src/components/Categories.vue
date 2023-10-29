@@ -75,7 +75,6 @@
                                     <Button label="Сохранить" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
                                 </template>
                             </Dialog>
-
                         </div>
                     </template>
                     <Column field="name" header="Названия" :sortable="true">
@@ -196,7 +195,7 @@ export default {
     data() {
         return {
             breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
-            breadcrumbItems: [{ label: 'Заказы', to: '/orders'}],
+            breadcrumbItems: [{ label: 'Категории', to: '/categories'}],
             products: null,
             productDialog: false,
             productAdd: false,

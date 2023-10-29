@@ -30,12 +30,12 @@
                             </Button>
                             <Dialog v-model:visible="productAdd" :style="{ width: '450px' }" header="Добавить новый продукт" :modal="true" class="p-fluid">
                                 <div class="field">
-                                    <label for="name">Имя продукта</label>
+                                    <label for="name">Названия</label>
                                     <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
                                     <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
                                 </div>
                                 <div class="field">
-                                    <label for="description">Описание</label>
+                                    <label for="description">Описания</label>
                                     <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
                                 </div>
 
@@ -68,14 +68,14 @@
                                     </div>
                                 </div>
                                 <div class='field upload-file mb-4'>
-                                    <FileUpload name="demo[]" choose-label='Добавить картинку' cancel-label='удалить' url="./upload.php" @upload="onAdvancedUpload($event)" accept="image/*" :maxFileSize="1000000" />
+                                    <label for="image">Картинка</label>
+                                    <FileUpload id='image' name="demo[]" choose-label='Добавить картинку' cancel-label='удалить' url="./upload.php" @upload="onAdvancedUpload($event)" accept="image/*" :maxFileSize="1000000" />
                                 </div>
                                 <template #footer>
                                     <Button label="Отмена" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
                                     <Button label="Сохранить" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
                                 </template>
                             </Dialog>
-
                         </div>
                     </template>
                     <Column field="name" header="Названия" :sortable="true">
@@ -104,8 +104,35 @@
                     </Column>
                     <Column>
                         <template #body="slotProps">
+                            <Button icon="pi pi-eject" class="p-button-rounded bg-transparent border-none text-black-alpha-80 mr-2" @click="editProductBanner(slotProps.data)" />
+                            <Dialog v-model:visible="productBanner" :style="{ width: '450px' }" header="ИЗМЕНИТЬ БАННЕР" :modal="true" class="p-fluid">
+                                <img
+                                    :src="'images/product/' + product.image"
+                                    :alt="product.image"
+                                    v-if="product.image"
+                                    width="150"
+                                    class="mt-0 mx-auto mb-5 block shadow-2"
+                                />
+                                <div class="field">
+                                    <label for="name">Названия</label>
+                                    <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
+                                    <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
+                                </div>
+                                <div class="field">
+                                    <label for="description">Описания</label>
+                                    <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
+                                </div>
+                                <template #footer>
+                                    <Button label="Отмена" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
+                                    <Button label="Сохранить" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
+                                </template>
+                            </Dialog>
+                        </template>
+                    </Column>
+                    <Column>
+                        <template #body="slotProps">
                             <Button icon="pi pi-pencil" class="p-button-rounded bg-transparent border-none text-black-alpha-80 mr-2" @click="editProduct(slotProps.data)" v-tooltip.bottom="'Редактировать'"/>
-                            <Button icon="pi pi-trash" class="p-button-rounded bg-transparent border-none text-black-alpha-80" @click="confirmDeleteProduct(slotProps.data)" v-tooltip.bottom="'Удалить'"/>
+                            <Button icon="pi pi-trash" class="p-button-rounded bg-transparent border-none text-black-alpha-80 bg-red-500 text-red-700" @click="confirmDeleteProduct(slotProps.data)" v-tooltip.bottom="'Удалить'" />
                         </template>
                     </Column>
                 </DataTable>
@@ -119,12 +146,12 @@
                         class="mt-0 mx-auto mb-5 block shadow-2"
                     />
                     <div class="field">
-                        <label for="name">Имя</label>
+                        <label for="name">Названия</label>
                         <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
                         <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
                     </div>
                     <div class="field">
-                        <label for="description">Описание</label>
+                        <label for="description">Описания</label>
                         <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
                     </div>
 
@@ -165,10 +192,10 @@
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
                         <span v-if="product"
-                        >Are you sure you want to delete <b>{{ product.name }}</b
-                        >?</span
+                            >Are you sure you want to delete <b>{{ product.name }}</b
+                            >?</span
                         >
-                    </div>
+                     </div>
                     <template #footer>
                         <Button label="Нет" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false" />
                         <Button label="Да" icon="pi pi-check" class="p-button-text" @click="deleteProduct()" />
@@ -196,9 +223,10 @@ export default {
     data() {
         return {
             breadcrumbHome: { icon: 'pi pi-home', to: '/admin' },
-            breadcrumbItems: [{ label: 'Заказы', to: '/orders'}],
+            breadcrumbItems: [{ label: 'Товары', to: '/products'}],
             products: null,
             productDialog: false,
+            productBanner: false,
             productAdd: false,
             deleteProductDialog: false,
             deleteProductsDialog: false,
@@ -251,6 +279,10 @@ export default {
         editProduct(product) {
             this.product = { ...product };
             this.productDialog = true;
+        },
+        editProductBanner(product) {
+            this.product = { ...product };
+            this.productBanner = true;
         },
         confirmDeleteProduct(product) {
             this.product = product;

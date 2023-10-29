@@ -2,14 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
     {
-        path: '/landing',
-        name: 'landing',
-        component: () => import('./pages/landing.vue'),
-        meta: {
-            layout: 'login'
-        }
-    },
-    {
         path: '/sets',
         name: 'sets',
         component: () => import('./components/Product/Sets.vue'),
@@ -55,9 +47,9 @@ const routes = [
         component: () => import('./components/Orders.vue'),
     },
     {
-        path: '/floatlabel',
-        name: 'floatlabel',
-        component: () => import('./components/FloatLabelDemo.vue'),
+        path: '/categories',
+        name: 'categories',
+        component: () => import('./components/Categories.vue'),
     },
     {
         path: '/',
@@ -91,6 +83,12 @@ const routes = [
             layout: 'login'
         }
     },
+    {
+        path: '/products',
+        name: 'products',
+        component: () => import('./pages/Products.vue'),
+    },
+
     {
         path: '/admin',
         name: 'admin',
